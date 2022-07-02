@@ -21,71 +21,61 @@ import javax.swing.JPanel;
 
 import GraphServer.Constants;
 
-public class GraphUI extends JPanel
-{
+public class GraphUI extends JPanel {
 	private JPanel[] screens;
 	private JPanel currentScreen;
 	private int currentScreenIndex;
-	
+
 	private Graphwar graphwar;
-	
-	public GraphUI(Graphwar graphwar) throws Exception
-	{
+
+	public GraphUI(Graphwar graphwar) throws Exception {
 		super();
-		
+
 		this.graphwar = graphwar;
-		
+
 		this.setLayout(null);
-		
+
 		screens = new JPanel[Constants.NUM_SCREENS];
-		
+
 		screens[Constants.MAIN_MENU_SCREEN] = new MainMenuScreen(graphwar, "/rsc/MainMenu.txt");
 		screens[Constants.PRE_GAME_SCREEN] = new PreGameScreen(graphwar, "/rsc/PreGame.txt");
 		screens[Constants.GLOBAL_ROOM_SCREEN] = new GlobalScreen(graphwar, "/rsc/GlobalRoom.txt");
 		screens[Constants.GAME_SCREEN] = new GameScreen(graphwar, "/rsc/GameScreen.txt");
-				
+
 		currentScreenIndex = -1;
 		currentScreen = null;
 	}
-	
-	public void stop()
-	{
-		for(int i=0; i< screens.length; i++)
-		{
-			if(screens[i] instanceof StartStopPanel)
-			{
+
+	public void stop() {
+		for (int i = 0; i < screens.length; i++) {
+			if (screens[i] instanceof StartStopPanel) {
 				((StartStopPanel) screens[i]).stopPanel();
 			}
 		}
 	}
-	
-	public void setScreen(int screenNum)
-	{		
-		if(currentScreenIndex != screenNum)
-		{
-			if(currentScreen instanceof StartStopPanel)
-			{
+
+	public void setScreen(int screenNum) {
+		if (currentScreenIndex != screenNum) {
+			if (currentScreen instanceof StartStopPanel) {
 				((StartStopPanel) currentScreen).stopPanel();
 			}
-			
+
 			this.removeAll();
-			this.add(screens[screenNum]);		
+			this.add(screens[screenNum]);
 			this.revalidate();
 			this.repaint();
-			
+
 			currentScreen = screens[screenNum];
 			currentScreenIndex = screenNum;
-			
-			if(currentScreen instanceof StartStopPanel)
-			{
+
+			if (currentScreen instanceof StartStopPanel) {
 				((StartStopPanel) currentScreen).startPanel();
 			}
 		}
 	}
-	
-	public JPanel getScreen(int screenNum)
-	{
+
+	public JPanel getScreen(int screenNum) {
 		return screens[screenNum];
 	}
-	
+
 }

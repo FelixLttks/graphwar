@@ -32,71 +32,66 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import java.awt.Cursor;
+
 import GraphServer.Constants;
 
-public class GraphUtil
-{
+public class GraphUtil {
 	public static Random random = new Random(System.currentTimeMillis());
-	
-	public static Color getRandomColor()
-	{
+
+	public static Color getRandomColor() {
 		Color color;
-		
-		do
-		{
-			color = new Color( random.nextInt(256), random.nextInt(256), random.nextInt(256));
-		}
-		while(color.getRed()*color.getRed() + color.getGreen()*color.getGreen() + color.getBlue()*color.getBlue() > Constants.MAXIMUM_COLOR_MODULE_SQUARED);
-	
+
+		do {
+			color = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+		} while (color.getRed() * color.getRed() + color.getGreen() * color.getGreen()
+				+ color.getBlue() * color.getBlue() > Constants.MAXIMUM_COLOR_MODULE_SQUARED);
+
 		return color;
 	}
-	
-	public static String nextLine(BufferedReader read)
-	{
+
+	public static String nextLine(BufferedReader read) {
 		String line = null;
-		
-		try 
-		{
+
+		try {
 			line = read.readLine();
-			
-			while(line.trim().isEmpty() || line.startsWith("//"))
-			{				
-				line = read.readLine();				
+
+			while (line.trim().isEmpty() || line.startsWith("//")) {
+				line = read.readLine();
 			}
-			
+
 			line = line.trim();
-		} 
-		catch (IOException e) 
-		{
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return line;		
-		
+
+		return line;
+
 	}
-	
-	public static BufferedImage mirrorImage(Image image)
-	{
-		BufferedImage mirror = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
-		
+
+	public static BufferedImage mirrorImage(Image image) {
+		BufferedImage mirror = new BufferedImage(image.getWidth(null), image.getHeight(null),
+				BufferedImage.TYPE_4BYTE_ABGR);
+
 		Graphics2D g = mirror.createGraphics();
-		
-		g.drawImage(image, 0, 0, image.getWidth(null), image.getHeight(null), image.getWidth(null), 0, 0, image.getHeight(null), null);
-		
+
+		g.drawImage(image, 0, 0, image.getWidth(null), image.getHeight(null), image.getWidth(null), 0, 0,
+				image.getHeight(null), null);
+
 		return mirror;
 	}
-	
-	public static PlayerBoard makePlayerBoard(Graphwar graphwar, BufferedReader read) throws InterruptedException, IOException
-	{
+
+	public static PlayerBoard makePlayerBoard(Graphwar graphwar, BufferedReader read)
+			throws InterruptedException, IOException {
 		int x = Integer.parseInt(GraphUtil.nextLine(read));
 		int y = Integer.parseInt(GraphUtil.nextLine(read));
 		int entryWidth = Integer.parseInt(GraphUtil.nextLine(read));
 		int entryHeight = Integer.parseInt(GraphUtil.nextLine(read));
 		int team2Offset = Integer.parseInt(GraphUtil.nextLine(read));
-		
+
 		MediaTracker tracker = new MediaTracker(graphwar);
-		
+
 		Image switchNormal = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
 		tracker.addImage(switchNormal, 0);
 		Image switchOver = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
@@ -106,9 +101,10 @@ public class GraphUtil
 		Image tempImg = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
 		tracker.addImage(tempImg, 2);
 		tracker.waitForAll();
-		BufferedImage switchMask = new BufferedImage(tempImg.getWidth(null), tempImg.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);			
+		BufferedImage switchMask = new BufferedImage(tempImg.getWidth(null), tempImg.getHeight(null),
+				BufferedImage.TYPE_3BYTE_BGR);
 		switchMask.getGraphics().drawImage(tempImg, 0, 0, null);
-		
+
 		Image soldierNormal = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
 		tracker.addImage(soldierNormal, 0);
 		Image soldierOver = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
@@ -118,9 +114,10 @@ public class GraphUtil
 		tempImg = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
 		tracker.addImage(tempImg, 2);
 		tracker.waitForAll();
-		BufferedImage soldierMask = new BufferedImage(tempImg.getWidth(null), tempImg.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);			
+		BufferedImage soldierMask = new BufferedImage(tempImg.getWidth(null), tempImg.getHeight(null),
+				BufferedImage.TYPE_3BYTE_BGR);
 		soldierMask.getGraphics().drawImage(tempImg, 0, 0, null);
-		
+
 		Image removeNormal = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
 		tracker.addImage(removeNormal, 0);
 		Image removeOver = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
@@ -130,87 +127,84 @@ public class GraphUtil
 		tempImg = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
 		tracker.addImage(tempImg, 3);
 		tracker.waitForAll();
-		BufferedImage removeMask = new BufferedImage(tempImg.getWidth(null), tempImg.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);			
+		BufferedImage removeMask = new BufferedImage(tempImg.getWidth(null), tempImg.getHeight(null),
+				BufferedImage.TYPE_3BYTE_BGR);
 		removeMask.getGraphics().drawImage(tempImg, 0, 0, null);
-		
-		PlayerBoard playerBoard = new PlayerBoard(	graphwar, entryWidth, entryHeight, team2Offset,
-													switchNormal, switchOver, switchGray, switchMask,
-													soldierNormal, soldierOver, soldierGhost, soldierMask,
-													removeNormal, removeOver, removeGray, removeMask);
-		
-		playerBoard.setBounds(x, y, team2Offset+entryWidth, Constants.MAX_PLAYERS*entryHeight);
-		
+
+		PlayerBoard playerBoard = new PlayerBoard(graphwar, entryWidth, entryHeight, team2Offset,
+				switchNormal, switchOver, switchGray, switchMask,
+				soldierNormal, soldierOver, soldierGhost, soldierMask,
+				removeNormal, removeOver, removeGray, removeMask);
+
+		playerBoard.setBounds(x, y, team2Offset + entryWidth, Constants.MAX_PLAYERS * entryHeight);
+
 		return playerBoard;
 	}
-	
-	public static GraphTextBox makeTextBox(BufferedReader read)
-	{
+
+	public static GraphTextBox makeTextBox(BufferedReader read) {
 		int x = Integer.parseInt(GraphUtil.nextLine(read));
 		int y = Integer.parseInt(GraphUtil.nextLine(read));
 		int width = Integer.parseInt(GraphUtil.nextLine(read));
 		int height = Integer.parseInt(GraphUtil.nextLine(read));
-		
+
 		GraphTextBox textBox = new GraphTextBox();
-		
+
 		textBox.setBounds(x, y, width, height);
-		
+
 		return textBox;
 	}
-	
-	public static JTextField makeTextField(BufferedReader read)
-	{
+
+	public static JTextField makeTextField(BufferedReader read) {
 		int fieldX = Integer.parseInt(GraphUtil.nextLine(read));
 		int fieldY = Integer.parseInt(GraphUtil.nextLine(read));
 		int fieldLength = Integer.parseInt(GraphUtil.nextLine(read));
-		
+
 		JTextField field = new JTextField(fieldLength);
 		field.setBounds(fieldX, fieldY, fieldLength, Constants.FIELDS_HEIGHT);
-		
+
 		return field;
 	}
-	
-	public static AudioClip makeAudioClip(Graphwar graphwar, BufferedReader read)
-	{
+
+	public static AudioClip makeAudioClip(Graphwar graphwar, BufferedReader read) {
 		AudioClip ac = Applet.newAudioClip(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
-		
+
 		return ac;
 	}
-	
-	public static JLabel makeBackgroundImage(Graphwar graphwar, BufferedReader read) throws InterruptedException, IOException
-	{
+
+	public static JLabel makeBackgroundImage(Graphwar graphwar, BufferedReader read)
+			throws InterruptedException, IOException {
 		MediaTracker tracker = new MediaTracker(graphwar);
-		
-		Image image = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));	
-		tracker.addImage(image, 0);		
-		tracker.waitForAll();		
-		
+
+		Image image = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
+		tracker.addImage(image, 0);
+		tracker.waitForAll();
+
 		int x = Integer.parseInt(GraphUtil.nextLine(read));
 		int y = Integer.parseInt(GraphUtil.nextLine(read));
-		
+
 		JLabel imagePanel = new JLabel(new ImageIcon(image));
 		imagePanel.setBounds(x, y, image.getWidth(null), image.getHeight(null));
-		
+
 		return imagePanel;
-		
+
 	}
-	
-	public static JLabel makeTextLabel(BufferedReader read)
-	{
+
+	public static JLabel makeTextLabel(BufferedReader read) {
 		int x = Integer.parseInt(GraphUtil.nextLine(read));
 		int y = Integer.parseInt(GraphUtil.nextLine(read));
 		int length = Integer.parseInt(GraphUtil.nextLine(read));
 		int height = Integer.parseInt(GraphUtil.nextLine(read));
-		
+
 		JLabel label = new JLabel();
 		label.setBounds(x, y, length, height);
-		
+
 		return label;
 	}
-	
-	public static GraphButton makeButton(Graphwar graphwar, BufferedReader read) throws InterruptedException, IOException
-	{
+
+	public static GraphButton makeButton(Graphwar graphwar, BufferedReader read)
+			throws InterruptedException, IOException {
 		MediaTracker tracker = new MediaTracker(graphwar);
-		
+
 		Image normal = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
 		tracker.addImage(normal, 0);
 		Image over = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
@@ -218,17 +212,19 @@ public class GraphUtil
 		Image tempImg = ImageIO.read(graphwar.getClass().getResource(GraphUtil.nextLine(read)));
 		tracker.addImage(tempImg, 2);
 		tracker.waitForAll();
-		
-		
-		BufferedImage mask = new BufferedImage(tempImg.getWidth(null), tempImg.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);			
+
+		BufferedImage mask = new BufferedImage(tempImg.getWidth(null), tempImg.getHeight(null),
+				BufferedImage.TYPE_3BYTE_BGR);
 		mask.getGraphics().drawImage(tempImg, 0, 0, null);
-		
+
 		int x = Integer.parseInt(GraphUtil.nextLine(read));
 		int y = Integer.parseInt(GraphUtil.nextLine(read));
-				
+
 		GraphButton graphButton = new GraphButton(normal, over, mask);
 		graphButton.setBounds(x, y, normal.getWidth(null), normal.getWidth(null));
-		
+
+		graphButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
 		return graphButton;
 	}
 
