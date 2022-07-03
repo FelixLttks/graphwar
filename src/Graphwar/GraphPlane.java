@@ -23,9 +23,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MediaTracker;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -36,6 +38,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import org.w3c.dom.events.MouseEvent;
 
 import GraphServer.Constants;
 
@@ -80,6 +84,8 @@ public class GraphPlane extends JPanel implements ActionListener {
 
 	private Timer timer;
 
+	private java.awt.event.MouseEvent last;
+
 	private static Color transparentWhite = new Color(255, 255, 255, 170);
 
 	public GraphPlane(Graphwar graphwar) throws Exception {
@@ -94,6 +100,41 @@ public class GraphPlane extends JPanel implements ActionListener {
 		initializePlayersAnimations(graphwar, tracker);
 		initializeCurrentMarker(graphwar, tracker);
 		initializeNextTeamMarker(graphwar, tracker);
+
+		this.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+				System.out.println("mouse " + (e.getX() * 50 / Constants.PLANE_LENGTH - 25) + " "
+						+ (-e.getY() * 30 / Constants.PLANE_HEIGHT + 15));
+
+				if (last != null) {
+					double x1 = Double.valueOf(last.getX());
+					double y1 = Double.valueOf(-last.getY());
+					double x2 = Double.valueOf(e.getX());
+					double y2 = Double.valueOf(-e.getY());
+					System.out.println(x1 + " " + y1);
+					System.out.println((y2 - y1) / (x2 - x1));
+				}
+				last = e;
+			}
+
+			@Override
+			public void mousePressed(java.awt.event.MouseEvent e) {
+			}
+
+			@Override
+			public void mouseReleased(java.awt.event.MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(java.awt.event.MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(java.awt.event.MouseEvent e) {
+			}
+		});
 
 		tracker.waitForAll();
 
@@ -747,6 +788,12 @@ public class GraphPlane extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
+		Point mousePos = this.getMousePosition();
+		if (mousePos != null) {
+			// System.out.println("mouse " + (mousePos.x * 50 / Constants.PLANE_LENGTH - 25)
+			// + " " + (-mousePos.y * 30 / Constants.PLANE_HEIGHT + 15));
+		}
+
 		if (((GameScreen) graphwar.getUI().getScreen(Constants.GAME_SCREEN)).isQuitVisible() ||
 				((GameScreen) graphwar.getUI().getScreen(Constants.GAME_SCREEN)).isShowMessageVisible()) {
 			repaintBack = true;
