@@ -21,8 +21,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class Constants {
-	// public static final Color BACKGROUND = new Color(158,215,155);
-	public static final Color BACKGROUND = new Color(255, 196, 55);
+	public static final Color BACKGROUND = new Color(158, 215, 155);
+	// public static final Color BACKGROUND = new Color(255, 196, 55);
 
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;

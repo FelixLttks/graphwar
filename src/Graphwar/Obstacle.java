@@ -42,7 +42,7 @@ public class Obstacle {
 		terrainGraphics.setColor(Color.WHITE);
 		terrainGraphics.fillRect(0, 0, terrain.getWidth(), terrain.getHeight());
 
-		terrainGraphics.setColor(Color.decode("#34df46"));
+		terrainGraphics.setColor(Color.decode("#51b4b8"));
 
 		for (int i = 0; i < numCircles; i++) {
 			int x = circleInfo[3 * i];

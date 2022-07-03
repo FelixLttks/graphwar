@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -161,6 +162,8 @@ public class GraphUtil {
 
 		JTextField field = new JTextField(fieldLength);
 		field.setBounds(fieldX, fieldY, fieldLength, Constants.FIELDS_HEIGHT);
+
+		field.setBorder(BorderFactory.createLineBorder(Color.decode("#CDF5DC"), 2));
 
 		return field;
 	}
