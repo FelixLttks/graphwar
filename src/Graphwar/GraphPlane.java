@@ -32,6 +32,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -85,6 +86,7 @@ public class GraphPlane extends JPanel implements ActionListener {
 	private Timer timer;
 
 	private java.awt.event.MouseEvent last;
+	private ArrayList<double[]> points;
 
 	private static Color transparentWhite = new Color(255, 255, 255, 170);
 
@@ -101,6 +103,8 @@ public class GraphPlane extends JPanel implements ActionListener {
 		initializeCurrentMarker(graphwar, tracker);
 		initializeNextTeamMarker(graphwar, tracker);
 
+		points = new ArrayList<double[]>();
+
 		this.addMouseListener(new MouseListener() {
 
 			@Override
@@ -108,15 +112,24 @@ public class GraphPlane extends JPanel implements ActionListener {
 				System.out.println("mouse " + (e.getX() * 50 / Constants.PLANE_LENGTH - 25) + " "
 						+ (-e.getY() * 30 / Constants.PLANE_HEIGHT + 15));
 
+				double x2 = Double.valueOf(e.getX());
+				double y2 = Double.valueOf(-e.getY());
+
 				if (last != null) {
 					double x1 = Double.valueOf(last.getX());
 					double y1 = Double.valueOf(-last.getY());
-					double x2 = Double.valueOf(e.getX());
-					double y2 = Double.valueOf(-e.getY());
+
+					System.out.println(x2 * 50 / Constants.PLANE_LENGTH - 25);
 					System.out.println(x1 + " " + y1);
 					System.out.println((y2 - y1) / (x2 - x1));
+
 				}
+				double[] arr = { Double.valueOf(Math.round((x2 * 50 / Constants.PLANE_LENGTH - 25) * 1000)) / 1000,
+						Double.valueOf(Math.round((y2 * 30 / Constants.PLANE_HEIGHT - 15) * 1000)) / 1000 };
+				points.add(arr);
+				calcFunc(points);
 				last = e;
+
 			}
 
 			@Override
@@ -338,6 +351,7 @@ public class GraphPlane extends JPanel implements ActionListener {
 	}
 
 	public void startDrawingFunction() {
+		points = new ArrayList<double[]>();
 		functionImage = new BufferedImage(Constants.PLANE_LENGTH, Constants.PLANE_HEIGHT,
 				BufferedImage.TYPE_4BYTE_ABGR);
 		functionGraphics = functionImage.createGraphics();
@@ -802,5 +816,25 @@ public class GraphPlane extends JPanel implements ActionListener {
 		} else {
 			repaint();
 		}
+	}
+
+	public void calcFunc(ArrayList<double[]> points) {
+		String result = "";
+		double currentM = 0;
+		for (int point = 0; point < points.size() - 1; point++) {
+			double m = (points.get(point + 1)[1] - points.get(point)[1])
+					/ (points.get(point + 1)[0] - points.get(point)[0]);
+			m = Double.valueOf(Math.round(m * 1000)) / 1000;
+			System.out.println("m: " + m);
+			double newM = m - currentM;
+			double x1 = points.get(point)[0];
+			double x2 = points.get(point + 1)[0];
+			result += "(" + newM + " x-(" + (newM * x1) + "))((1)/(1+e^(-100 (x-(" + x1 + ")))))";
+			if (point < points.size() - 2) {
+				result += " + ";
+			}
+			currentM = m;
+		}
+		System.out.println(result);
 	}
 }
