@@ -2,6 +2,9 @@
 But it is possible to join global rooms with people using the normal Version.  
 I changed some UI and added some usefull features
 
+# Download
+[graphwar](https://github.com/FeljxFeljx/graphwar/raw/master/graphwar.jar)
+
 
 # Graphwar Tutorial
 
