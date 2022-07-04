@@ -124,8 +124,8 @@ public class GraphPlane extends JPanel implements ActionListener {
 					System.out.println((y2 - y1) / (x2 - x1));
 
 				}
-				double[] arr = { Double.valueOf(Math.round((x2 * 50 / Constants.PLANE_LENGTH - 25) * 1000)) / 1000,
-						Double.valueOf(Math.round((y2 * 30 / Constants.PLANE_HEIGHT - 15) * 1000)) / 1000 };
+				double[] arr = { Double.valueOf(x2 * 50 / Constants.PLANE_LENGTH - 25),
+						Double.valueOf(y2 * 30 / Constants.PLANE_HEIGHT - 15) };
 				points.add(arr);
 				calcFunc(points);
 				last = e;
