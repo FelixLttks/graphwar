@@ -9,5 +9,7 @@ example: 0.5 * abs(x - 4)
 ![image](https://user-images.githubusercontent.com/76926119/177186015-5b32a1a1-5610-4dbc-a128-4ec781283313.png)
 
 ### a * abs(x - b) - a * abs(x - c)
-example: 0.5 * abs(x - 4) - 0.5 * abs(x - 7)
+example: 0.5 * abs(x - 4) - 0.5 * abs(x - 7)   
+![image](https://user-images.githubusercontent.com/76926119/177191746-0b2981ac-e5d3-4148-9fe3-ec5173ccf1ca.png)
+
 
