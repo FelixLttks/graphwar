@@ -12,4 +12,7 @@ example: 0.5 * abs(x - 4)
 example: 0.5 * abs(x - 4) - 0.5 * abs(x - 7)   
 ![image](https://user-images.githubusercontent.com/76926119/177191746-0b2981ac-e5d3-4148-9fe3-ec5173ccf1ca.png)
 
+### a/(1+(x-b)^2)
+example: 3/(1+(x-2)^2)
+
 
