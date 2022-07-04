@@ -48,7 +48,7 @@
 
 /rsc/quit.png
 /rsc/quitOver.png
-/rsc/smallMask.png
+/rsc/miniMask.png
 290
 545
 
