@@ -1,4 +1,4 @@
-## This is a modified Version of the original game
+# This is a modified Version of the original game
 But it is possible to join global rooms with people using the normal Version.  
 I changed some UI and added some usefull features
 
