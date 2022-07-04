@@ -151,6 +151,7 @@ public class GraphUtil {
 		GraphTextBox textBox = new GraphTextBox();
 
 		textBox.setBounds(x, y, width, height);
+		textBox.setBorder(BorderFactory.createLineBorder(Color.decode("#CDF5DC"), 2));
 
 		return textBox;
 	}
