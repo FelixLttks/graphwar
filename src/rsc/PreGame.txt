@@ -55,14 +55,14 @@
 // Ready on
 /rsc/readyOver.png
 /rsc/readyNormal.png
-/rsc/readyMask.png
+/rsc/smallMask.png
 600
 470
 
 // Ready off
 /rsc/readyNormal.png
 /rsc/readyOver.png
-/rsc/readyMask.png
+/rsc/smallMask.png
 600
 470
 

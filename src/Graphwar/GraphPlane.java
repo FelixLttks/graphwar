@@ -824,7 +824,7 @@ public class GraphPlane extends JPanel implements ActionListener {
 		for (int point = 0; point < points.size() - 1; point++) {
 			double m = (points.get(point + 1)[1] - points.get(point)[1])
 					/ (points.get(point + 1)[0] - points.get(point)[0]);
-			m = Double.valueOf(Math.round(m * 1000)) / 1000;
+			m = Double.valueOf(m);
 			System.out.println("m: " + m);
 			double newM = m - currentM;
 			double x1 = points.get(point)[0];
