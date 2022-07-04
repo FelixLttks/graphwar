@@ -58,6 +58,12 @@
 290 
 500
 
+/rsc/help.png
+/rsc/helpOver.png
+/rsc/miniMask.png
+370
+545
+
 // FUNCFIELD
 195
 480

@@ -29,12 +29,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Stack;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+
+import java.awt.Desktop;
 
 import GraphServer.Constants;
 
@@ -50,6 +53,7 @@ public class GameScreen extends JPanel implements ActionListener, StartStopPanel
 	private GraphButton fire;
 	private GraphButton quit;
 	private GraphButton global;
+	private GraphButton help;
 	private JTextField funcField;
 	private JTextField chatField;
 	private GraphTextBox chatBox;
@@ -97,6 +101,7 @@ public class GameScreen extends JPanel implements ActionListener, StartStopPanel
 		fire = GraphUtil.makeButton(graphwar, read);
 		quit = GraphUtil.makeButton(graphwar, read);
 		global = GraphUtil.makeButton(graphwar, read);
+		help = GraphUtil.makeButton(graphwar, read);
 		funcField = GraphUtil.makeTextField(read);
 		chatField = GraphUtil.makeTextField(read);
 		chatBox = GraphUtil.makeTextBox(read);
@@ -117,6 +122,7 @@ public class GameScreen extends JPanel implements ActionListener, StartStopPanel
 		components.push(fire);
 		components.push(quit);
 		components.push(global);
+		components.push(help);
 		components.push(plane);
 		components.push(funcField);
 		components.push(chatField);
@@ -126,6 +132,7 @@ public class GameScreen extends JPanel implements ActionListener, StartStopPanel
 		this.fire.addActionListener(this);
 		this.quit.addActionListener(this);
 		this.global.addActionListener(this);
+		this.help.addActionListener(this);
 		this.funcField.addActionListener(this);
 		this.chatField.addActionListener(this);
 
@@ -373,6 +380,13 @@ public class GameScreen extends JPanel implements ActionListener, StartStopPanel
 				}
 			} else if (arg0.getSource() == global) {
 				graphwar.getUI().setScreen(Constants.GLOBAL_ROOM_SCREEN);
+			} else if (arg0.getSource() == help) {
+				String urlString = "https://github.com/FeljxFeljx/graphwar/blob/master/UsefullFunctions.md";
+				try {
+					Desktop.getDesktop().browse(new URL(urlString).toURI());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
