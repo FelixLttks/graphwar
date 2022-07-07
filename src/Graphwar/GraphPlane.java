@@ -125,7 +125,7 @@ public class GraphPlane extends JPanel implements ActionListener {
 
 				}
 				double[] arr = { Double.valueOf(x2 * 50 / Constants.PLANE_LENGTH - 25),
-						Double.valueOf(y2 * 30 / Constants.PLANE_HEIGHT - 15) };
+						Double.valueOf(y2 * 30 / Constants.PLANE_HEIGHT + 15) };
 				points.add(arr);
 				calcFunc(points);
 				last = e;
@@ -351,12 +351,14 @@ public class GraphPlane extends JPanel implements ActionListener {
 	}
 
 	public void startDrawingFunction() {
-		points = new ArrayList<double[]>();
+
 		functionImage = new BufferedImage(Constants.PLANE_LENGTH, Constants.PLANE_HEIGHT,
 				BufferedImage.TYPE_4BYTE_ABGR);
 		functionGraphics = functionImage.createGraphics();
 		functionGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		lastStepDrawn = 0;
+		// System.out.println(graphwar.getGameData().getCurrentTurnPlayer().getSoldiers()[0].getX());
+
 	}
 
 	private double convertX(double x) {
@@ -819,6 +821,9 @@ public class GraphPlane extends JPanel implements ActionListener {
 	}
 
 	public void calcFunc(ArrayList<double[]> points) {
+		for (double[] point : points) {
+			System.out.println("point: " + point[0] + " " + point[1]);
+		}
 		String result = "";
 		double currentM = 0;
 		for (int point = 0; point < points.size() - 1; point++) {
@@ -836,5 +841,33 @@ public class GraphPlane extends JPanel implements ActionListener {
 			currentM = m;
 		}
 		System.out.println(result);
+		GameScreen screen = ((GameScreen) graphwar.getUI().getScreen(Constants.GAME_SCREEN));
+		screen.getFuncField().setText(result);
+	}
+
+	public void nextPlayer() {
+		boolean reversed = graphwar.getGameData().isTerrainReversed();
+
+		Player currentTurnPlayer = graphwar.getGameData().getCurrentTurnPlayer();
+		Soldier[] currentTurnSoldiers = currentTurnPlayer.getSoldiers();
+		int soldierTurn = currentTurnPlayer.getCurrentTurnSoldierIndex();
+
+		double x = currentTurnSoldiers[soldierTurn].getX();
+		double y = currentTurnSoldiers[soldierTurn].getY();
+		points = new ArrayList<double[]>();
+
+		System.out.println("x,y of soldier:" + x + " " + y);
+
+		System.out.println("reversed: " + reversed);
+		if (reversed) {
+			double[] arr = { -Double.valueOf(x * 50 / Constants.PLANE_LENGTH - 25),
+					-Double.valueOf(y * 30 / Constants.PLANE_HEIGHT - 15) };
+			points.add(arr);
+		} else {
+			double[] arr = { Double.valueOf(x * 50 / Constants.PLANE_LENGTH - 25),
+					-Double.valueOf(y * 30 / Constants.PLANE_HEIGHT - 15) };
+			points.add(arr);
+		}
+
 	}
 }

@@ -55,9 +55,15 @@ public class GameScreen extends JPanel implements ActionListener, StartStopPanel
 	private GraphButton global;
 	private GraphButton help;
 	private JTextField funcField;
+
+	public JTextField getFuncField() {
+		return funcField;
+	}
+
 	private JTextField chatField;
 	private GraphTextBox chatBox;
 	private GraphPlane plane;
+
 	private GraphTimer timer;
 	private GraphAngleDisplay angleDisplay;
 
@@ -513,6 +519,10 @@ public class GameScreen extends JPanel implements ActionListener, StartStopPanel
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void nextTurn() {
+		plane.nextPlayer();
 	}
 
 }
